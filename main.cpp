@@ -3,11 +3,21 @@
 #include <random>
 #include <ctime>
 #include <windows.h>
+#include <list>
+#include <string>
+#include <iterator>
 
 #define len 4
 
+
+
 using namespace std;
 int number;
+
+string symbols = "!@#$%^&*()-_+=;:,./?|`~[]{}";
+string num = "0123456789";
+string upper_alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+string lower_alpha = "abcdefghijklmnopqrstuvwxyz";
 
 void sketch() {
 	cout << "       ,";
@@ -40,53 +50,120 @@ void sketch() {
 	cout << "                   `----`              " << endl;
 	cout << "=========WELCOME!=========" << endl;
 }
-
-string password(){
+string key_generator() {
+	string key = "";
+	string symbols = upper_alpha + num;
 	srand(time(NULL));
+	for (int a = 1; a <= 19; a++) {
+		if (a % 5 == 0) {
+			key += "-";
+		}
+		else {
+			key += symbols[rand() % 36 + 1];
+		}
+	}
+	return key;
+
+}
+string password(){
 	string pass = "";
-	string symbols = "!#$%&'()*+,-./:;<=>?[`{|}~]^_";
-	string num = "0123456789";
-	string upper_alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	string lower_alpha = "abcdefghijklmnopqrstuvwxyz";
 	string res[len] = {symbols, num, upper_alpha, lower_alpha};
+	srand(time(NULL));
 	for (int i = 0; i < 8; i++) {
 		for (int a = 0; a < 4; a++)
 		{
-			int c = rand()%33;
+			int c = rand()%36+1;
 			pass += (res[a][c]);
 		}
 	}
 	return pass;
 }
 
-void run_generator(int times) {
+void run_key_generator(int times){
+	list <string> keys_list;
+	while(keys_list.size()<times) {
+		string key = key_generator();
+		keys_list.push_front(key);
+		keys_list.unique();
+		Sleep(1);
+	}
+	for (auto i = keys_list.begin(); i != keys_list.end(); i++) {
+		cout << *i << endl;
+	}
+	keys_list.clear();
+}
+
+void run_generator_passwords(int times) {
 for (int b = 0; b < times; b++)
 	{
-		Sleep(1000);
+		Sleep(1);
 		cout << password()<< endl;
 	}
 }
 
 void main_func() {
 	cout << "1 - return to home page" << endl
-	<< "2 - entry the number of passwords that you want and run" << endl
-	<< "3 - generate passwords one more time";
+		<< "2 - generate passwords" << endl
+		<< "3 - generate keys (XXXX-XXXX-XXXX-XXXX)" << endl
+		<< "entry here:  ";
 	char answer;
 	cin >> answer;
+	cout << endl;
 	switch (answer)
 	{
 	case '1':
-		system("clear"); sketch(); main_func();
+		system("clear");
+		sketch();
+		main_func();
+		
 	case '2':
-		cout << "number of passwords: "; cin >> number; 
-	case '3':
+		cout << "number of passwords: ";
+		cin >> number;
 		if(number > 0) {
-			run_generator(number);	
+			run_generator_passwords(number);
 		}
 		else{
 			cout << "number is empty!" << endl<< "entry now: ";
 			cin >> number;
-			run_generator(number);
+			run_generator_passwords(number);
+		}
+		cout << "1 - return to home page" << endl
+		<< "2 - generate passwords one more time" << endl << "entry here:  ";
+		cin >> answer;
+		switch (answer)
+		{
+		case '1':
+			system("clear");
+			sketch();
+			main_func();
+		case'2': run_generator_passwords(number);
+		default:
+			break;
+		}
+	case '3':
+		cout << "number of keys: ";
+		cin >> number;
+		if(number > 0){
+			run_key_generator(number);
+		}
+		else {
+			cout << "number is empty!" << endl << "entry now: ";
+			cin >> number;
+			run_key_generator(number);
+		}
+		cout << "1 - return to home page" << endl
+			<< "2 - generate keys one more time" << endl << "entry here:  ";
+		cin >> answer;
+		switch (answer)
+		{
+		case '1':
+			system("clear");
+			sketch();
+			main_func();
+		case '2':
+			run_key_generator(number);
+		default:
+			break;
 		}
 	default:
 		break;
