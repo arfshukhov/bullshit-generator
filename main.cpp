@@ -51,8 +51,8 @@ void sketch() {
 	cout << "=========WELCOME!=========" << endl;
 }
 string key_generator() {
-	string key = "";
-	string symbols = upper_alpha + num;
+	string key = ""; 
+	string symbols = upper_alpha+num;
 	srand(time(NULL));
 	for (int a = 1; a <= 19; a++) {
 		if (a % 5 == 0) {
