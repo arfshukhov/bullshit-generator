@@ -97,7 +97,7 @@ void run_key_generator(int times){
 void run_generator_passwords(int times) {
 for (int b = 0; b < times; b++)
 	{
-		Sleep(1);
+		Sleep(10);
 		cout << password()<< endl;
 	}
 }
