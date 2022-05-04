@@ -12,7 +12,8 @@
 
 
 using namespace std;
-int number;
+int *number;
+char* answer;
 
 string symbols = "!@#$%^&*()-_+=;:,./?|`~[]{}";
 string num = "0123456789";
@@ -81,7 +82,7 @@ string password(){
 
 void run_key_generator(int times){
 	list <string> keys_list;
-	while(keys_list.size()<times) {
+	while(keys_list.size() < times) {
 		string key = key_generator();
 		keys_list.push_front(key);
 		keys_list.unique();
@@ -106,62 +107,78 @@ void main_func() {
 		<< "2 - generate passwords" << endl
 		<< "3 - generate keys (XXXX-XXXX-XXXX-XXXX)" << endl
 		<< "entry here:  ";
-	char answer;
+	answer = new char;
 	cin >> answer;
 	cout << endl;
-	switch (answer)
+	switch (*answer)
 	{
 	case '1':
 		system("clear");
 		sketch();
 		main_func();
-		
+		delete answer;
+		delete number;
 	case '2':
 		cout << "number of passwords: ";
-		cin >> number;
+		number = new int;
+		cin >> *number;
 		if(number > 0) {
-			run_generator_passwords(number);
+			run_generator_passwords(*number);
 		}
 		else{
-			cout << "number is empty!" << endl<< "entry now: ";
-			cin >> number;
-			run_generator_passwords(number);
+			cout << "number is empty!" << endl
+				<< "entry now: ";
+			cin >> *number;
+			run_generator_passwords(*number);
 		}
 		cout << "1 - return to home page" << endl
-		<< "2 - generate passwords one more time" << endl << "entry here:  ";
+		<< "2 - generate passwords one more time" << endl 
+		<< "entry here:  ";
 		cin >> answer;
-		switch (answer)
+		switch (*answer)
 		{
 		case '1':
-			system("clear");
-			sketch();
-			main_func();
-		case'2': run_generator_passwords(number);
+		{system("clear");
+		sketch();
+		main_func();
+		delete answer;
+		delete number; }
+		case'2': run_generator_passwords(*number);
+			cout << "1 - return to home page" << endl
+				<< "2 - generate passwords one more time" << endl
+				<< "entry here:  ";
+			cin >> answer;
 		default:
 			break;
 		}
 	case '3':
 		cout << "number of keys: ";
-		cin >> number;
+		number = new int;
+		cin >> *number;
 		if(number > 0){
-			run_key_generator(number);
+			run_key_generator(*number);
 		}
 		else {
 			cout << "number is empty!" << endl << "entry now: ";
-			cin >> number;
-			run_key_generator(number);
+			cin >> *number;
+			run_key_generator(*number);
 		}
 		cout << "1 - return to home page" << endl
 			<< "2 - generate keys one more time" << endl << "entry here:  ";
 		cin >> answer;
-		switch (answer)
+		switch (*answer)
 		{
 		case '1':
 			system("clear");
 			sketch();
 			main_func();
+			delete answer;
+			delete number;
 		case '2':
-			run_key_generator(number);
+			run_key_generator(*number);
+			cout << "1 - return to home page" << endl
+				<< "2 - generate keys one more time" << endl << "entry here:  ";
+			cin >> answer;
 		default:
 			break;
 		}
