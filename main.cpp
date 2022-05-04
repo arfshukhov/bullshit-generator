@@ -52,16 +52,18 @@ void sketch() {
 	cout << "=========WELCOME!=========" << endl;
 }
 string key_generator() {
-	string key = ""; 
-	string symbols = upper_alpha+num;
+	string key;
+	string symbols = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	srand(time(NULL));
-	for (int a = 1; a <= 19; a++) {
-		if (a % 5 == 0) {
-			key += "-";
+	for (auto a = 1; a <= 30; a++) {
+		if (a%6 == 0 && a <= 24) {
+			key+="-";
 		}
 		else {
-			key += symbols[rand() % 36 + 1];
+			Sleep(1);
+			key+=(symbols[rand()%37+1]);
 		}
+		Sleep(1);
 	}
 	return key;
 
@@ -86,7 +88,7 @@ void run_key_generator(int times){
 		string key = key_generator();
 		keys_list.push_front(key);
 		keys_list.unique();
-		Sleep(1);
+		Sleep(20);
 	}
 	for (auto i = keys_list.begin(); i != keys_list.end(); i++) {
 		cout << *i << endl;
