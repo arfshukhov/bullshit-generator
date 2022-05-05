@@ -15,10 +15,11 @@ using namespace std;
 int *number;
 char* answer;
 
-string symbols = "!@#$%^&*()-_+=;:,./?|`~[]{}";
+string special_symbols = "!@#$%^&*-_+=;:,./?|`~[]{}";
 string num = "0123456789";
 string upper_alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 string lower_alpha = "abcdefghijklmnopqrstuvwxyz";
+string res[len] = {special_symbols, num, upper_alpha, lower_alpha};
 
 void sketch() {
 	cout << "       ,";
@@ -53,30 +54,30 @@ void sketch() {
 }
 string key_generator() {
 	string key;
-	string symbols = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	string symbols[] = {"0","1","2","3","4","5","6","7","8","9",
+		"A","B","C","D","E","F","G","H","I","J",
+		"K","L","M","N","O","P","Q","R","S","T",
+		"U","V","W","X","Y","Z"};
 	srand(time(NULL));
-	for (auto a = 1; a <= 30; a++) {
-		if (a%6 == 0 && a <= 24) {
-			key+="-";
+	for (auto a = 1; a < 30; a++) {
+		if (a % 6 != 0) {
+			key+=(symbols[rand()%36]);
 		}
 		else {
-			Sleep(1);
-			key+=(symbols[rand()%37+1]);
+			key+="-";
 		}
-		Sleep(1);
 	}
 	return key;
 
 }
 string password(){
-	string pass = "";
-	string res[len] = {symbols, num, upper_alpha, lower_alpha};
+	string pass;
 	srand(time(NULL));
 	for (int i = 0; i < 8; i++) {
 		for (int a = 0; a < 4; a++)
 		{
-			int c = rand()%36+1;
-			pass += (res[a][c]);
+			int c = res[a].size();
+			pass.push_back((res[a][rand()%c]));
 		}
 	}
 	return pass;
@@ -99,7 +100,7 @@ void run_key_generator(int times){
 void run_generator_passwords(int times) {
 for (int b = 0; b < times; b++)
 	{
-		Sleep(10);
+		Sleep(1000);
 		cout << password()<< endl;
 	}
 }
